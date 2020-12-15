@@ -8,7 +8,7 @@ import {
 
 const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
   // Ref
-  const audioRef = useRef(null);
+  const audioRef = useRef(0);
   // Event handlers
   const playSongHandler = () => {
     if (isPlaying) {
@@ -39,8 +39,8 @@ const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
 
   // state
   const [songInfo, setSongInfo] = useState({
-    currentTime: null,
-    duration: null,
+    currentTime: 0,
+    duration: 0,
   });
   return (
     <div className="player">
