@@ -6,6 +6,7 @@ import "./styles/app.scss";
 import Player from "./components/Player";
 import Song from "./components/Song";
 import Library from "./components/Library";
+import Nav from "./components/Nav";
 
 import data from "./util";
 
@@ -20,6 +21,7 @@ function App() {
     currentTime: 0,
     duration: 0,
   });
+  const [libraryStatus, setLibraryStatus] = useState(false);
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;
     const duration = e.target.duration;
@@ -27,7 +29,7 @@ function App() {
   };
   return (
     <div className="App">
-      <audio src="https://www.dropbox.com/s/pfanatfpiwld32q/AURORA%20-%20Daydreamer%20%28Music%20Video%20%26%29.mp3?dl=0"></audio>
+      <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
       <Song currentSong={currentSong} />
       <Player
         audioRef={audioRef}
@@ -43,6 +45,7 @@ function App() {
         setCurrentSong={setCurrentSong}
         isPlaying={isPlaying}
         setSongs={setSongs}
+        libraryStatus={libraryStatus}
       />
       <audio
         onTimeUpdate={timeUpdateHandler}
