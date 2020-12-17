@@ -89,7 +89,7 @@ const Player = ({
   return (
     <div className="player">
       <div className="time-control">
-        <p>{getTime(songInfo.currentTime)}</p>
+        <p>{songInfo.duration ? getTime(songInfo.currentTime) : "0:00"}</p>
         <input
           min={0}
           max={songInfo.duration || 0}
@@ -97,7 +97,7 @@ const Player = ({
           onChange={dragHandler}
           type="range"
         />
-        <p>{getTime(songInfo.duration)}</p>
+        <p>{songInfo.duration ? getTime(songInfo.duration) : "loading..."}</p>
       </div>
       <div className="play-control">
         <FontAwesomeIcon
