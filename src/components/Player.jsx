@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -18,11 +17,10 @@ const Player = ({
   setCurrentSong,
   setSongs,
 }) => {
-  // use effect
-  useEffect(() => {
+  const activeLibraryHandler = (nextOrPrev) => {
     // add active state
     const newSongs = songs.map((song) => {
-      if (song.id === currentSong.id) {
+      if (song.id === nextOrPrev.id) {
         return {
           ...song,
           active: true,
@@ -35,16 +33,17 @@ const Player = ({
       }
     });
     setSongs(newSongs);
-    // check if song is playing
-    if (isPlaying) {
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.then((audio) => {
-          audioRef.current.play();
-        });
-      }
+    console.log("hey from use effect player.js");
+  };
+  // check if song is playing
+  if (isPlaying) {
+    const playPromise = audioRef.current.play();
+    if (playPromise !== undefined) {
+      playPromise.then((audio) => {
+        audioRef.current.play();
+      });
     }
-  }, [currentSong]);
+  }
   // Event handlers
   const playSongHandler = () => {
     if (isPlaying) {
@@ -71,27 +70,35 @@ const Player = ({
     let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
     if (direction === "skip-forward") {
       await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+      activeLibraryHandler(songs[(currentIndex + 1) % songs.length]);
     }
     if (direction === "skip-back") {
       if ((currentIndex - 1) % songs.length === -1) {
         await setCurrentSong(songs[songs.length - 1]);
-        if(isPlaying) audioRef.current.play()
+        activeLibraryHandler(songs[songs.length - 1]);
+        if (isPlaying) audioRef.current.play();
         return;
       }
       await setCurrentSong(songs[(currentIndex - 1) % songs.length]);
+      activeLibraryHandler(songs[(currentIndex - 1) % songs.length])
     }
-    if(isPlaying) audioRef.current.play()
+    if (isPlaying) audioRef.current.play();
   };
 
-//   add the styles
-const trackAnim = {
-    transform: `translateX(${songInfo.animationPercentage}%)`
-}
+  //   add the styles
+  const trackAnim = {
+    transform: `translateX(${songInfo.animationPercentage}%)`,
+  };
   return (
     <div className="player">
       <div className="time-control">
         <p>{songInfo.duration ? getTime(songInfo.currentTime) : "0:00"}</p>
-        <div style={{background: `linear-gradient(to right, ${currentSong.color[0]},${currentSong.color[1]} )`}} className="track">
+        <div
+          style={{
+            background: `linear-gradient(to right, ${currentSong.color[0]},${currentSong.color[1]} )`,
+          }}
+          className="track"
+        >
           <input
             min={0}
             max={songInfo.duration || 0}
