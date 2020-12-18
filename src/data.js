@@ -58,7 +58,7 @@ function chillHop() {
       artist: "Tones And I",
       audio:
         "https://www.dropbox.com/s/eliw87uukxvqbmr/TONES%20AND%20I%20-%20FLY%20AWAY.mp3?dl=1",
-      color: ["#9FC878", "EBCBCA"],
+      color: ["#9FC878", "#f5bcba"],
       id: uuidv4(),
       active: false,
     },
